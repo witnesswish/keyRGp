@@ -1,0 +1,36 @@
+name: Recover ssl from scret
+
+on:
+  push:
+    tags: 
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  from-windows:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: deconde and getcontent
+      shell: powershell
+      run: |
+        Get-Content "${{ secrets.SSL_KEY_BASE64 }}" | base64 -d > client.key
+        pwd
+        dir
+          
+      
+  from-linux-android:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: deconde and echo
+      run: |
+          echo "${{ secrets.SSL_KEY_BASE64 }}" | base64 -d > client.key
+          pwd
+          ls
