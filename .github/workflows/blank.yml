@@ -17,11 +17,12 @@ jobs:
     - name: deconde and getcontent
       shell: powershell
       run: |
-        Get-Content "${{ secrets.SSL_KEY_BASE64 }}" | base64 -d > client.key
+        $base64String = "${{ secrets.CLIENT_KEY_BASE64 }}"
+        Set-Content -Path client.key -Value $base64String
         pwd
         dir
-          
-      
+        Get-Content client.key
+        
   from-linux-android:
     runs-on: ubuntu-latest
     permissions:
@@ -34,3 +35,5 @@ jobs:
           echo "${{ secrets.SSL_KEY_BASE64 }}" | base64 -d > client.key
           pwd
           ls
+          cat client.key
+          
